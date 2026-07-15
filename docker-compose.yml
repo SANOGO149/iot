@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # 1. Le Broker MQTT : Mosquitto
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: iot-mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+    networks:
+      - iot-network
+
+  # 2. La Base de Données Temporelle : InfluxDB
+  influxdb:
+    image: influxdb:2.7
+    container_name: iot-influxdb
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=UfhbSecurity2026Admin!
+      - DOCKER_INFLUXDB_INIT_ORG=ufhb
+      - DOCKER_INFLUXDB_INIT_BUCKET=meteo
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=YboiKWZUvq0m7-5k19MqqdsGTFDtj6JahmdLDgbuZgKnpr3ZuCJIG_WOZmYghMTbqjv2dux86DYPRqT-5fTPNQ==
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+    networks:
+      - iot-network
+
+  # 3. Le Moteur d'Ingestion : Node-RED
+  nodered:
+    image: nodered/node-red:latest
+    container_name: iot-nodered
+    restart: unless-stopped
+    depends_on:
+      - mosquitto
+      - influxdb
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./nodered/data:/data
+    networks:
+      - iot-network
+
+  # 4. L'Outil de Visualisation : Grafana
+  grafana:
+    image: grafana/grafana:latest
+    container_name: iot-grafana
+    restart: unless-stopped
+    depends_on:
+      - influxdb
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - iot-network
+
+volumes:
+  influxdb-data:
+  grafana-data:
+
+networks:
+  iot-network:
+    driver: bridge

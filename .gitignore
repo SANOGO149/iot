@@ -1,0 +1,23 @@
+# Node-RED
+nodered/data/node_modules/
+nodered/data/flows_cred.json
+nodered/data/.config.json
+nodered/data/.npmrc
+nodered/data/.sessions/
+nodered/data/.config.*
+nodered/data/.flows*.json*
+nodered/data/.npm/
+nodered/data/package-lock.json
+
+# Environment and secrets
+.env
+*.env
+*.local
+
+# Logs
+npm-debug.log*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
