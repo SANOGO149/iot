@@ -1,6 +1,6 @@
 # ⚡️ Supervision IoT - Station Météo Intelligente & Alerte Canicule (UFHB)
 
-Ce dépôt contient l'infrastructure logicielle complète pour la supervision environnementale et la détection d'alertes canicule sur le campus de l'**Université Félix Houphouët-Boigny (UFHB)**. Le projet s'appuie sur une architecture conteneurisée pour collecter, traiter, stocker et visualiser les données en temps réel.
+Ce dépôt contient l'infrastructure logicielle complète pour la supervision environnementale et la détection d'alertes canicule sur le campus de l'**Université Félix Houphouët-Boigny (UFHB)**.
 
 ---
 
